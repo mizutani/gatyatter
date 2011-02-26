@@ -5,6 +5,7 @@ require 'MeCab'
 require 'yaml'
 require 'kconv'
 #YAML::ENGINE.yamler = 'psych'
+#ランダムにあたりを取出すように拡張
 class Hash 
   def random_key 
     array = []
@@ -12,12 +13,15 @@ class Hash
     return array[rand(array.size)]
   end 
 end
+
 class Study
   def initialize
+#辞書の読み込み
     @data = YAML.load_file 'data.yaml'
     @data ||= {}
     @wakati = MeCab::Tagger.new('-o wakati')
   end
+#マルコフ連鎖で記憶する
   def marukohu text
     first = text.shift
     second = text.shift
@@ -41,6 +45,7 @@ class Study
       marukohu wakati
     end
   end
+#文章を修正
   def filter text
     return false if text =~ /http\S+/
     text.gsub!(/@\S+\s/, "")
