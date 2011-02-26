@@ -4,9 +4,11 @@ require 'twitter'
 require 'yaml'
 require './gatyatter_study'
 class Tweet
-  def initialize
+  def initialize    
     @study = Study.new
+#アカウント読み込み
     account = YAML.load_file 'account.yml'
+#ログイン
     Twitter.configure do |config|
       config.consumer_key = account['sk']
       config.consumer_secret = account['ce']
@@ -15,7 +17,9 @@ class Tweet
     end
   end
   def update
+#文書生成
     message = @study.random_return "私"
+#Twitterへ投稿
     Twitter.update(message.join)
   end
 end
