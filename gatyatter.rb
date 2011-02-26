@@ -2,13 +2,16 @@
 require 'rubygems'
 require 'eventmachine'
 require './userstream'
+#スレッド生成
 Thread.new do
   while true
     begin
       EM::run do
+#1時間置きに定期的にTweetする        
         EM.add_periodic_timer(3600){
           system("ruby ./tweet.rb")
         }
+#毎日リプライ率を設定する
         EM.add_periodic_timer(86400){
           system("ruby ./user_list.rb")
         }
@@ -24,6 +27,7 @@ end
 
 while true
   begin
+    #UserStream使ってリアルタイムに処理
     twitter = User_stream.new
     twitter.start
   rescue Timeout::Error, StandardError => e
