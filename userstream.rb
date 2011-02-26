@@ -16,15 +16,20 @@ class User_stream
     @https.use_ssl = true
     @https.verify_mode = OpenSSL::SSL::VERIFY_NONE if @https.use_ssl?
   end
+#Twitterへ投稿
   def update status
     message = status['text']
+#messageがnilなら投稿をしない
     return if message == nil
+#投稿者名取出す
     user = status['user']['screen_name']
     #in_reply_to_screen_name"=>"TManagement",
+#自分宛のリプライを取出す
     if status['in_reply_to_screen_name'] == 'gatyatter'
       #外部処理に投げる
       data = @study.start($1) if message =~ /^@gatyatter (.+)/
     elsif @user_list.key? user
+#設定したリプライ率以下ならリプライを返す
       return unless @user_list[user] > rand(10000)
       data = @study.start(message)
     end
