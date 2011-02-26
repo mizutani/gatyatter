@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 require './gatyatter_study'
-study = Study.new
+
+#study = Study.new
 #study.text_wakati "今日の気分は俺は最悪です!\n頑[張りま]しょ『』[]う！！http:sssss!!寝る" 
 def reset_d
   study = Study.new
